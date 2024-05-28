@@ -4,7 +4,7 @@ This script, `create_hungry_yaml.sh`, automates the creation of a Kubernetes pod
 
 ## Overview
 
-The `create_hungry_yaml.sh` script queries a specified Kubernetes node for its total CPU and memory resources, calculates a user-defined percentage of these resources, and generates a `hungry.yaml` file. This file defines a pod named "hungry" that requests these calculated resources, using the Kubernetes `pause` container to minimally impact the node.
+The `create_hungry_yaml.sh` script queries a specified Kubernetes node for its total CPU and memory resources, calculates a user-defined percentage of these resources, and generates a `hungry.yaml` file. This file defines a pod named "hungry" that requests these calculated resources, using the Kubernetes `busybox` container to minimally impact the node.
 
 ## Requirements
 
