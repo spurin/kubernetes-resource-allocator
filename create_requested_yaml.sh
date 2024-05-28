@@ -46,7 +46,7 @@ metadata:
   name: $pod_name
   namespace: $namespace
 spec:
-  nodeName: "$node_name"
+  nodeName: $node_name
   containers:
   - name: $pod_name
     image: busybox
