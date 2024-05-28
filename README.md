@@ -31,6 +31,7 @@ Upon successful execution, the script will:
 Output Example:
 
 ```
+$ create_hungry_yaml.sh worker-2 95
 🔍 Querying node 'worker-2' for total resources (kubectl describe node/worker-2) ...
 📊 Initial CPU in cores: 20 cores (20000 millicores)
 📊 Initial Memory in MiB: 7838.93 MiB
