@@ -16,13 +16,13 @@ The `create_requested_yaml.sh` script queries a specified Kubernetes node for it
 ## Usage
 
 ```bash
-./create_requested_yaml.sh <node-name> <percentage>
+./create_requested_yaml.sh <namespace> <pod-name> <node-name> <percentage>
 ```
 
 - `<namespace>` : Kubernetes namespace for the pod
 - `<pod-name>` : Name of the Kubernetes pod
 - `<node-name>` : Name of the Kubernetes node
-- `<percentage>` : Desired percentage of CPU and Memory to use
+- `<percentage>` : Desired percentage of CPU and Memory to use (Int)
 
 Upon successful execution, the script will:
 
