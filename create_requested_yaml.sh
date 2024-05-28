@@ -1,15 +1,19 @@
 #!/bin/bash
 
 # Check for correct usage and provide instructions if incorrect
-if [ $# -ne 2 ]; then
-  echo "🚫 Usage: $0 <node-name> <percentage>"
+if [ $# -ne 4 ]; then
+  echo "🚫 Usage: $0 <namespace> <pod-name> <node-name> <percentage>"
+  echo "   <namespace> : Kubernetes namespace for the pod"
+  echo "   <pod-name> : Name of the Kubernetes pod"
   echo "   <node-name> : Name of the Kubernetes node"
   echo "   <percentage> : Desired percentage of CPU and Memory to use"
   exit 1
 fi
 
-node_name=$1
-percentage_usage=$2
+namespace=$1
+pod_name=$2
+node_name=$3
+percentage_usage=$4
 
 # Retrieve the total CPU (in cores) and memory from the specified node
 echo "🔍 Querying node '$node_name' for total resources (kubectl describe node/${node_name}) ..."
@@ -29,22 +33,22 @@ memory_calculated=$(echo "$total_memory_mib" | awk -v percentage="$percentage_us
 echo "🔢 Calculated CPU to request: $cpu_calculated millicores (${percentage_usage}% of total)"
 echo "🔢 Calculated Memory to request: $memory_calculated MiB (${percentage_usage}% of total)"
 
-# Create hungry.yaml with the computed resources
-cat <<EOF > hungry.yaml
+# Create YAML file with the computed resources
+cat <<EOF > "${namespace}-${pod_name}.yaml"
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: hungry
+  name: $namespace
 ---
 apiVersion: v1
 kind: Pod
 metadata:
-  name: hungry
-  namespace: hungry
+  name: $pod_name
+  namespace: $namespace
 spec:
   nodeName: "$node_name"
   containers:
-  - name: hungry
+  - name: $pod_name
     image: busybox
     command: ["sleep"]
     args: ["infinity"]
@@ -54,4 +58,4 @@ spec:
         memory: "${memory_calculated}Mi"
 EOF
 
-echo "✅ hungry.yaml has been created with pod/hungry in namespace hungry with the desired resource requests"
+echo "✅ ${namespace}-${pod_name}.yaml has been created with pod/${pod_name} in namespace ${namespace} with the desired resource requests"
